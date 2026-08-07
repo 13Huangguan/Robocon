@@ -37,7 +37,7 @@
 #include "buzzer.h"   /* 蜂鸣器驱动的函数声明 */
 #include "led.h"      /* LED 驱动的函数声明 */
 
-// 在这里替换成#include user_beep.h
+#include "user_beep.h"
 
 /* USER CODE END Includes */
 
@@ -78,6 +78,7 @@ void beep(uint32_t beep_ms);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 __weak void user_beep(){}
+
 /* USER CODE END 0 */
 
 /**
@@ -126,23 +127,23 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+   
     /* USER CODE BEGIN 3 */
-    current_led = 2U; /* 练习点：改成 2U，观察从哪颗 LED 开始 */
+    current_led = 1U; /* 练习点：改成 2U，观察从哪颗 LED 开始 */
 
     /* while 循环：条件成立就反复执行 {} 里的代码 */
     while (current_led <= led_count)
     {
-      blink_led(current_led, blink_times, delay_ms);
+      blink_led(current_led, current_led , delay_ms);
       current_led++; /* 等价于 current_led = current_led + 1 */
-    }
+      }
 
     
 
     /* if / else 判断：让延时每次变快一点，到 100 后重新回到初始值 */
     if (delay_ms > 100U)
     {
-      delay_ms += 20U; /* 练习点：改成 += 20U 看速度变化方向 */
+      delay_ms -= 20U; /* 练习点：改成 += 20U 看速度变化方向 */
     }
     else
     {
@@ -151,6 +152,7 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
+  
 
 /**
   * @brief System Clock Configuration
@@ -232,6 +234,7 @@ void blink_led(uint8_t led_num, uint16_t times, uint32_t delay_ms)
     HAL_Delay(delay_ms);
   }
 }
+ 
 
 void beep(uint32_t beep_ms)
 {
