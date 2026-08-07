@@ -36,3 +36,27 @@ void blink(led_config led)
   led_off(led.id);
   HAL_Delay(led.off_ms);
 }
+void blink2(led_config* led1,int c)
+{
+    led_on((*(led1+c)).id);
+    led_on((*(led1+1+c)).id);
+    HAL_Delay((*(led1+c)).on_ms);
+    led_off((*(led1+c)).id);
+    led_off((*(led1+1+c)).id);
+    HAL_Delay((*(led1+c)).off_ms);
+
+}
+void blink3(led_config* led1)
+{
+    led_on((*led1).id);
+    led_on((*(led1+1)).id);
+    led_on((*(led1+2)).id);
+    led_on((*(led1+3)).id);
+    HAL_Delay((*led1).on_ms);
+    led_off((*led1).id);
+    led_off((*(led1+1)).id);
+    led_off((*(led1+2)).id);
+    led_off((*(led1+3)).id);
+    HAL_Delay((*led1).off_ms);
+
+}

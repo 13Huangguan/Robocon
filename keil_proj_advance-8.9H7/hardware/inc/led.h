@@ -31,6 +31,14 @@ typedef struct
     int off_ms; 
 }led_config;
 void blink(led_config led);
+void blink2(led_config* led1,int i);
+void blink3(led_config* led1);
+typedef enum
+{
+    follow_mode=0,
+    double_mode=1,
+    together_mode=2
+}LED_Mode;
 #ifdef __cplusplus
 }
 #endif

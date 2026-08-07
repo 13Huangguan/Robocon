@@ -47,6 +47,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+int signal=1;
 static const led_config led_table[] =
 {
     { 0, 250U, 250U },
@@ -62,9 +63,24 @@ static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
 void LED_Flow()
 {
-  static i=0;
+  static int i=0;
   blink(led_table[i]);
   i=(i+1)%4;
+}
+void LED_Flow1()
+{
+  static int i=0;
+  blink2(led_table,i);
+  i=(i+2)%4;
+}
+void control_led_flow(LED_Mode a)
+{
+    switch(a)
+    {
+        case follow_mode:LED_Flow();break;
+        case double_mode:LED_Flow1();break;
+        case together_mode:blink3(led_table);break;
+    }
 }
 /* USER CODE END PFP */
 
@@ -120,9 +136,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+   control_led_flow(signal);
     /* USER CODE BEGIN 3 */
-    LED_Flow();
   }
   /* USER CODE END 3 */
 }
