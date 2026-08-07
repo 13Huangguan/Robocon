@@ -54,7 +54,15 @@
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-
+void LED_Flow()
+{
+  static i=0;
+  led_on(i);
+  HAL_Delay(250U);
+  led_off(i);
+  HAL_Delay(250U);
+  i=(i+1)%4;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -111,10 +119,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    led_on(0U);
-    HAL_Delay(250U);
-    led_off(0U);
-    HAL_Delay(250U);
+    LED_Flow();
   }
   /* USER CODE END 3 */
 }
