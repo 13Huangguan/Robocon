@@ -47,7 +47,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+static const led_config led_table[] =
+{
+    { 0, 250U, 250U },
+    { 1, 250U, 250U },
+    { 2, 250U, 250U },
+    { 3, 250U, 250U }
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,10 +63,7 @@ static void MPU_Config(void);
 void LED_Flow()
 {
   static i=0;
-  led_on(i);
-  HAL_Delay(250U);
-  led_off(i);
-  HAL_Delay(250U);
+  blink(led_table[i]);
   i=(i+1)%4;
 }
 /* USER CODE END PFP */

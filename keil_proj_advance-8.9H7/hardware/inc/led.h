@@ -8,6 +8,7 @@
 
 #include "stm32h7xx_hal.h"
 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -22,9 +23,14 @@ extern "C" {
 #define IS_VALID_LED(id) ((id) < 4&&(id)>=0)//题目1增加
 
 /* 种子工程先提供无参数版本，只操作 LED1；题目 1 将其扩展为带编号参数版本 */
-void led_on(uint8_t id);
-void led_off(uint8_t id);
 
+typedef struct
+{
+    uint8_t id;
+    int on_ms;
+    int off_ms; 
+}led_config;
+void blink(led_config led);
 #ifdef __cplusplus
 }
 #endif
