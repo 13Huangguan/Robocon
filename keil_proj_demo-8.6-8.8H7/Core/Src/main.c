@@ -38,6 +38,7 @@
 #include "led.h"      /* LED 驱动的函数声明 */
 
 #include "user_beep.h"
+#include "FUNCTION.h"
 
 /* USER CODE END Includes */
 
@@ -49,7 +50,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* #define 是宏定义：编译前会把名字替换成后面的内容 */
-#define LED_COUNT   4U    /* 板载 LED 数量，U 表示 unsigned 无符号数 */
+
 #define BLINK_TIMES 5U    /* 每颗 LED 闪烁次数 */
 #define DELAY_MS    500U  /* LED 亮/灭持续时间，单位毫秒 */
 #define BEEP_MS     300U  /* 蜂鸣器响一声的时长 */
@@ -71,13 +72,13 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
 /* 函数声明（原型）：告诉编译器函数名、参数和返回值，定义在下方 USER CODE 4 */
-void blink_led(uint8_t led_num, uint16_t times, uint32_t delay_ms);
-void beep(uint32_t beep_ms);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 __weak void user_beep(){}
+	int mode=2;
 
 /* USER CODE END 0 */
 
@@ -127,28 +128,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-   
+   alarm_sys_func(mode);
     /* USER CODE BEGIN 3 */
-    current_led = 1U; /* 练习点：改成 2U，观察从哪颗 LED 开始 */
-
-    /* while 循环：条件成立就反复执行 {} 里的代码 */
-    while (current_led <= led_count)
-    {
-      blink_led(current_led, current_led , delay_ms);
-      current_led++; /* 等价于 current_led = current_led + 1 */
-      }
-
-    
-
-    /* if / else 判断：让延时每次变快一点，到 100 后重新回到初始值 */
-    if (delay_ms > 100U)
-    {
-      delay_ms -= 20U; /* 练习点：改成 += 20U 看速度变化方向 */
-    }
-    else
-    {
-      delay_ms = DELAY_MS;
-    }
+   
   }
   /* USER CODE END 3 */
 }
@@ -215,33 +197,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 /* 函数定义：这里才是函数的具体实现 */
-void blink_led(uint8_t led_num, uint16_t times, uint32_t delay_ms)
-{
-  uint16_t i = 0U; /* 循环计数变量 */
 
-  /* if 判断：LED 编号只允许 1~4 */
-  if (led_num > LED_COUNT)
-  {
-    return; /* return 直接结束当前函数 */
-  }
-
-  /* for 循环：初始化; 判断条件; 每次循环后执行 */
-  for (i = 0U; i < times; i++)
-  {
-    led_on(led_num);          /* 点亮指定 LED */
-    HAL_Delay(delay_ms);      /* 延时一段时间 */
-    led_off(led_num);         /* 熄灭指定 LED */
-    HAL_Delay(delay_ms);
-  }
-}
- 
-
-void beep(uint32_t beep_ms)
-{
-  buzzer_on();          /* 打开蜂鸣器 */
-  HAL_Delay(beep_ms);   /* 保持响一段时间 */
-  buzzer_off();         /* 关闭蜂鸣器 */
-}
 /* USER CODE END 4 */
 
  /* MPU Configuration */
