@@ -25,6 +25,8 @@
 #include "led.h"
 #include "buzzer.h"
 #include "command_pack_queue.h"
+#define LED_MASK_LED1 1
+#define LED_MASK_LED2 2
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
