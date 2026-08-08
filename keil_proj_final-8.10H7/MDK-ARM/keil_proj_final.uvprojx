@@ -552,6 +552,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>user</GroupName>
+          <Files>
+            <File>
+              <FileName>state.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\state.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
