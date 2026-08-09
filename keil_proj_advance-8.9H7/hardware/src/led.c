@@ -3,6 +3,10 @@
  * @brief   LED 驱动实现文件。
  */
 #include "led.h"
+
+timer led_timer; 
+LED_Mode cur_state=idle_mode;
+
 static const uint8_t led_table[] =
 {
     GPIO_PIN_3,
@@ -58,5 +62,101 @@ void blink3(led_config* led1)
     led_off((*(led1+2)).id);
     led_off((*(led1+3)).id);
     HAL_Delay((*led1).off_ms);
+}
+
+
+static void led_alloff()
+{
+   HAL_GPIO_WritePin(LED_GPIO_PORT,GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6,GPIO_PIN_RESET); 
+}
+static void led_allon()
+{
+   HAL_GPIO_WritePin(LED_GPIO_PORT,GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6,GPIO_PIN_SET); 
+}
+
+
+ void timer_start(timer* timer1,uint32_t periodtime)
+{
+   timer1->start_time=HAL_GetTick();
+   timer1->period_time=periodtime;
+   timer1->run_state=1;
+}
+ uint8_t timer_check(timer* timer1)
+{
+    uint32_t run_time=HAL_GetTick()-timer1->start_time;
+    if(timer1->run_state==0)
+    {
+        return 0;
+    }
+    if(run_time>timer1->period_time)
+    {
+         timer1->run_state=0;
+         return 0;
+    }
+    return 1; 
+}
+void state_machine()
+{  static uint8_t flag=0;
+   LED_Mode new_state;
+   switch(signal)
+   {
+        case 0: new_state =idle_mode;    break;
+        case 1: new_state =follow_mode;   break;
+        case 2: new_state = double_mode;   break;
+        case 3: new_state =  together_mode;   break;
+        default: new_state = idle_mode;   break;
+   }
+   if (new_state != cur_state)
+    {
+        cur_state = new_state;
+        led_step = 0;          
+        timer_start(&led_timer,500); 
+    }
+   switch(cur_state)
+    {
+        case idle_mode:
+            led_alloff();
+            break;
+
+        case follow_mode: 
+            if(timer_check(&led_timer)==0)
+            {
+                led_alloff();
+                led_on(led_step);
+                led_step = (led_step + 1) % 4;
+                timer_start(&led_timer,500); 
+            }
+            break;
+
+        case double_mode: 
+            if(timer_check(&led_timer)==0)
+            {
+                
+                led_alloff();
+                HAL_GPIO_WritePin(LED_GPIO_PORT, LED1_PIN << led_step, GPIO_PIN_SET);
+                HAL_GPIO_WritePin(LED_GPIO_PORT, (LED1_PIN << (led_step+1)), GPIO_PIN_SET);
+                led_step = (led_step+1)%4;
+                timer_start(&led_timer,500);
+            }
+            break;
+
+        case together_mode:
+            if(timer_check(&led_timer)==0)
+            {  if(flag==1)
+                led_allon();
+                else
+                {
+                    led_alloff();
+                }
+                flag=(flag+1)%2;
+                timer_start(&led_timer,500);
+            }
+            break;
+
+        default:
+            cur_state =idle_mode ;
+            led_alloff();
+            break;
+    }
 
 }

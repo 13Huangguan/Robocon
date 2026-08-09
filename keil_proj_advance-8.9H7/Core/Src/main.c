@@ -47,7 +47,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int signal=1;
+    signal=3;
+    
+    led_step =0;
 static const led_config led_table[] =
 {
     { 0, 250U, 250U },
@@ -136,7 +138,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-   control_led_flow(signal);
+    state_machine();
+    buzzer_confunction();
+   //control_led_flow(signal);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

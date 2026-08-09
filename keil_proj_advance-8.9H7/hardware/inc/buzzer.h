@@ -20,6 +20,13 @@ extern "C" {
 void buzzer_init(void);
 void buzzer_on(void);
 void buzzer_off(void);
+void buzzer_confunction();
+
+typedef struct
+{
+    uint16_t on_ms;
+    uint16_t off_ms;
+}buzzer_cfg;
 
 #ifdef __cplusplus
 }
