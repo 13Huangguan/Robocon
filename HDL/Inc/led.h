@@ -1,0 +1,20 @@
+#ifndef __LED_H
+#define __LED_H
+#include "main.h"
+#include "gpio.h"
+
+
+void ledflow();
+void ledbreath(TIM_HandleTypeDef *htim);
+void LED_ON(uint8_t i);
+void LED_OFF(uint8_t i);
+void LED_MODE1and2();
+typedef enum
+{ 
+    stop_mode=0,
+    flow_mode,
+    breath_mode
+
+}MODE;
+extern MODE mode;
+#endif
