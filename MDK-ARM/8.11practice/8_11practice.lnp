@@ -24,6 +24,7 @@
 "8.11practice\system_stm32f4xx.o"
 "8.11practice\beep.o"
 "8.11practice\led.o"
+"8.11practice\timer.o"
 "8.11practice\key.o"
 --strict --scatter "8.11practice\8_11practice.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

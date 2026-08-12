@@ -530,6 +530,11 @@
               <FileType>1</FileType>
               <FilePath>..\HDL\Src\led.c</FilePath>
             </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HDL\Src\timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
