@@ -1,0 +1,25 @@
+#ifndef BUZZER_H
+#define BUZZER_H
+
+#include "stm32f4xx_hal.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* 宏定义：给蜂鸣器使用的端口和引脚起一个容易记住的名字 */
+#define BUZZER_GPIO_PORT GPIOA
+#define BUZZER_PIN       GPIO_PIN_8
+
+/* 函数声明（原型）：只声明函数存在，不写实现 */
+void buzzer_init(void);
+void buzzer_on(void);
+void buzzer_off(void);
+void buzzer_beep(uint32_t beep_ms);
+void buzzer_task(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* BUZZER_H */
