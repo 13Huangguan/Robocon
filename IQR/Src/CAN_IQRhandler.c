@@ -1,7 +1,6 @@
 #include "UART_IQRhandler.h"
 #include "CAN_IQRhandler.h"
 #include "can.h"
-#include "buzzer.h"
 uint8_t TxData[5] = {0}; // 要发送的数据
 uint8_t RxData[10];
 float feedback;
@@ -34,14 +33,13 @@ void Data_update(void *argument)
            CAN_Send_StdMsg(&hcan1,0x001,TxData,5);
            rx_new_data_flag1= 0;
         }
-       //CAN_Send_StdMsg(&hcan1,0x012,TxData,5);
         vTaskDelayUntil(&last, pdMS_TO_TICKS(100));
     }
 }
 
-
+CAN_RxHeaderTypeDef RxHeader;
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-{   CAN_RxHeaderTypeDef RxHeader;
+{
     if (hcan->Instance == CAN1)
     {
        
@@ -55,23 +53,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
                     feedback_flag=1;
                 }
                 if(RxHeader.StdId == 0x010)
-                {   
+                {
                     buzzer_flag=2*RxData[0];
-				    
                 }
                 
             }
         }
-    }
-}
-void Noise(void *argument)
-{
-  TickType_t last = xTaskGetTickCount();
-    (void)argument;
-    for(;;)
-    {  
-        
-        CAN_Send_StdMsg(&hcan1,0x012,TxData,5);
-        vTaskDelayUntil(&last, pdMS_TO_TICKS(2));
     }
 }
